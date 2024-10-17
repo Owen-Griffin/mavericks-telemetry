@@ -1,0 +1,16 @@
+<head>
+    <title>Mavericks Telemetry</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body>
+    <main>
+    <p>Wheel RPM: {{ wheelRPM }}</p>
+    <canvas id="wheel-rpm-chart" style="width:100%;max-width:700px"></canvas>
+
+    <p>Speed: {{ speed }}</p>
+    <canvas id="speed-chart" style="width:100%;max-width:700px"></canvas>
+
+    </main>
+    <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>
+</body>
