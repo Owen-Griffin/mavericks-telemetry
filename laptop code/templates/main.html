@@ -5,11 +5,38 @@
 </head>
 <body>
     <main>
-    <p>Wheel RPM: {{ wheelRPM }}</p>
-    <canvas id="wheel-rpm-chart" style="width:100%;max-width:700px"></canvas>
+    <h1>Westmount Mavericks Telemetry Dashboard</h1>
+    <div class="chart-container">
+        <div class="individual-chart-container" id="wheel-rpm-chart-container">
+            <h2>Wheel RPM</h2>
+            <canvas id="wheel-rpm-chart" style="width:100%;max-width:700px"></canvas>
+            <p>Wheel RPM: {{ wheelRPM }}RPM</p>
+        </div>
 
-    <p>Speed: {{ speed }}</p>
-    <canvas id="speed-chart" style="width:100%;max-width:700px"></canvas>
+        <div class="individual-chart-container" id="speed-chart-container">
+            <h2>Speed</h2>
+            <canvas id="speed-chart" style="width:100%;max-width:700px"></canvas>
+            <p>Speed: {{ speed }}km/h</p>
+        </div>
+        
+        <div class="individual-chart-container" id="battery-voltage-chart-container">
+            <h2>Battery Voltage</h2>
+            <canvas id="battery-voltage-chart" style="width:100%;max-width:700px"></canvas>
+            <p>Battery Voltage: {{ batteryVoltage }}V</p>
+        </div>
+
+        <div class="individual-chart-container" id="motor-voltage-chart-container">
+            <h2>Motor Voltage</h2>
+            <canvas id="motor-voltage-chart" style="width:100%;max-width:700px"></canvas>
+            <p>Motor Voltage: {{ motorVoltage }}V</p>
+        </div>
+
+        <div class="individual-chart-container" id="amperage-chart-container">
+            <h2>Amperage</h2>
+            <canvas id="amperage-chart" style="width:100%;max-width:700px"></canvas>
+            <p>Shunt Amperage: {{ shuntAmperage }}A</p>
+        </div>
+    </div>
 
     </main>
     <script src="{{ url_for('static',filename='scripts/main.js') }}"></script>

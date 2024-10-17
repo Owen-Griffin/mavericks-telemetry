@@ -8,36 +8,52 @@ for (var i = 1; i <= wheelRPMExampleDataY.length; i++) {
 console.log(wheelRPMExampleDataX)
 
 
-
-// WHEEL RPM CHART
-const wheelRPMChart = new Chart("wheel-rpm-chart", {
-    type: "line",
-    data: {
-        labels: wheelRPMExampleDataX,
-        datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-            data: wheelRPMExampleDataY
-        }]
-    },
-    options: {
-        legend: {display: false},
-        scales: {
-            yAxes: [{
-                ticks: {min: 0, max: 50}, 
-                scaleLabel: {
-                    display: true,
-                    labelString: 'RPM'
-                }
-            }], 
-            xAxes: [{
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Reading'
-                }
+function defineCharts() {
+    // WHEEL RPM CHART
+    const wheelRPMChart = new Chart("wheel-rpm-chart", {
+        type: "line",
+        data: {
+            labels: wheelRPMExampleDataX,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(255,255,255,1.0)",
+                borderColor: "rgba(255,255,255,0.5)",
+                data: wheelRPMExampleDataY
             }]
+        },
+        options: {
+            legend: {display: false},
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fontColor: "#ffffff"
+                    }, 
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'RPM',
+                        fontColor: "#ffffff"
+                    },
+                    gridLines: {
+                        color: "ffffff"
+                    }
+                }], 
+                xAxes: [{
+                    ticks: {
+                        fontColor: "#ffffff"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Reading #',
+                        fontColor: "#ffffff"
+                    },
+                    gridLines: {
+                        color: "ffffff"
+                    }
+                }]
+            }
         }
-    }
-  });
+    });
+};
+
+defineCharts()
