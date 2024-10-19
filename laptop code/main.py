@@ -5,7 +5,6 @@ import serial
 import threading
 import logging
 from datetime import datetime
-import os
 
 # init application and websockets
 app = Flask(__name__)
