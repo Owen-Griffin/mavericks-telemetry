@@ -1,40 +1,48 @@
 <head>
     <title>Mavericks Telemetry</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='assets/mavericks-logo-color-circle.png') }}">
+
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
 <body>
     <main>
-    <h1>Westmount Mavericks Telemetry Dashboard</h1>
+    <div id="title-container">
+        <img class="circle-image title-item" src="{{ url_for('static',filename='assets/mavericks-logo-color.png') }}">
+        <h1 class="title-item">Westmount Mavericks Telemetry Dashboard</h1>
+    </div>
+    <p id="last-data-update-text">Data last updated at:</p>
+    <p id="uptime-counter">Uptime: -:-:-</p>
     <div class="chart-container">
         <div class="individual-chart-container" id="wheel-rpm-chart-container">
             <h2>Wheel RPM</h2>
             <canvas id="wheel-rpm-chart" style="width:100%;max-width:700px"></canvas>
-            <p>Wheel RPM: {{ wheelRPM }}RPM</p>
+            <p id="wheel-rpm-text">Wheel RPM: {{ wheelRPM }}RPM</p>
         </div>
 
         <div class="individual-chart-container" id="speed-chart-container">
             <h2>Speed</h2>
             <canvas id="speed-chart" style="width:100%;max-width:700px"></canvas>
-            <p>Speed: {{ speed }}km/h</p>
+            <p id="speed-text">Speed: {{ speed }}km/h</p>
         </div>
         
         <div class="individual-chart-container" id="battery-voltage-chart-container">
             <h2>Battery Voltage</h2>
             <canvas id="battery-voltage-chart" style="width:100%;max-width:700px"></canvas>
-            <p>Battery Voltage: {{ batteryVoltage }}V</p>
+            <p id="battery-voltage-text">Battery Voltage: {{ batteryVoltage }}V</p>
         </div>
 
         <div class="individual-chart-container" id="motor-voltage-chart-container">
             <h2>Motor Voltage</h2>
             <canvas id="motor-voltage-chart" style="width:100%;max-width:700px"></canvas>
-            <p>Motor Voltage: {{ motorVoltage }}V</p>
+            <p id="motor-voltage-text">Motor Voltage: {{ motorVoltage }}V</p>
         </div>
 
         <div class="individual-chart-container" id="amperage-chart-container">
             <h2>Amperage</h2>
             <canvas id="amperage-chart" style="width:100%;max-width:700px"></canvas>
-            <p>Shunt Amperage: {{ shuntAmperage }}A</p>
+            <p id="shunt-amperage-text">Shunt Amperage: {{ shuntAmperage }}A</p>
         </div>
     </div>
 
