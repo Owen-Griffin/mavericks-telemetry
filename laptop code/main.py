@@ -60,18 +60,23 @@ def process_serial_input(serialLine):
         case 'RPM':
             print('RPM reading detected')
             logging.info(f'RPM reading detected: "{serialLine}"')
+            wheelRPM = dataCode.split()[1]
         case 'SPD':
             print('Speed reading detected')
             logging.info(f'Speed reading detected: "{serialLine}"')
+            speed = dataCode.split()[1]
         case 'BATTV':
             print('Battery voltage reading detected')
             logging.info(f'Battery voltage reading detected: "{serialLine}"')
+            batteryVoltage = dataCode.split()[1]
         case 'MOTV':
             print('Motor voltage reading detected')
             logging.info(f'Motor voltage reading detected: "{serialLine}"')
+            motorVoltage = dataCode.split()[1]
         case 'SHAMP':
             print('Shunt amperage reading detected')
             logging.info(f'Shunt amperage reading detected: "{serialLine}"')
+            shuntAmperage = dataCode.split()[1]
         case _:
             print('Unknown input detected!')
             logging.warning(f'Unknown input detected: "{serialLine}"')
