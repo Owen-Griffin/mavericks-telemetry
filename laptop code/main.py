@@ -11,7 +11,7 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 # define placeholder sensor data
-wheelRPM = 3
+wheelRPM = 0
 speed = 0
 batteryVoltage = 0
 motorVoltage = 0
