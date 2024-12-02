@@ -96,7 +96,7 @@ body {
 .close {
     color: #ffffff;
     float: right;
-    font-size: 28px;
+    font-size: 2.5em;
     font-weight: bold;
     cursor: pointer;
 }

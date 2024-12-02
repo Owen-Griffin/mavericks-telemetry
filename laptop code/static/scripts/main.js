@@ -34,6 +34,13 @@ var motorVoltageX = [];
 var shuntAmperageY = []
 var shuntAmperageX = [];
 
+// DEFINE FULL READING ARRAYS
+var wheelRPMReadings = [];
+var speedReadings = [];
+var batteryVoltageRPMReadings = [];
+var motorVoltageReadings = [];
+var shuntAmperageReadings = [];
+
 // DEFINE CHART CONSTANTS
 let wheelRPMChart, speedChart, batteryVoltageChart, motorVoltageChart, shuntAmperageChart;
 
@@ -41,6 +48,17 @@ let wheelRPMChart, speedChart, batteryVoltageChart, motorVoltageChart, shuntAmpe
 let secondsRunning = 0;
 let minutesRunning = 0;
 let hoursRunning = 0;
+
+function trim_list_to_max(list, maxItems) {
+    if(list.length > maxItems) {
+        list = list.slice(-maxItems);
+    }
+    return list
+}
+
+function create_chart_x_length(targetLength) {
+    return Array.from({ length: targetLength }, (v, i) => i + 1);
+}
 
 function define_charts() {
     // WHEEL RPM CHART
@@ -275,22 +293,39 @@ function define_charts() {
 };
 define_charts();
 
-function update_line_graph_X() {
-    for (var i = wheelRPMDataX.length + 1; i <= wheelRPMDataY.length; i++) {
-        wheelRPMDataX.push(i);
+function update_line_graphs() {
+    const maxPoints = parseInt(document.getElementById("number-of-data-points-on-charts").value)
+    if(maxPoints != 0 && !isNaN(maxPoints)) {
+        wheelRPMDataY = trim_list_to_max(wheelRPMDataY, maxPoints);
+        speedDataY = trim_list_to_max(speedDataY, maxPoints);
+        batteryVoltageY = trim_list_to_max(batteryVoltageY, maxPoints);
+        motorVoltageY = trim_list_to_max(motorVoltageY, maxPoints);
+        shuntAmperageY = trim_list_to_max(shuntAmperageY, maxPoints);
     }
-    for (var i = speedDataX.length + 1; i <= speedDataY.length; i++) {
-        speedDataX.push(i);
-    }
-    for (var i = batteryVoltageX.length + 1; i <= batteryVoltageY.length; i++) {
-        batteryVoltageX.push(i);
-    }
-    for (var i = motorVoltageX.length + 1; i <= motorVoltageY.length; i++) {
-        motorVoltageX.push(i);
-    }
-    for (var i = shuntAmperageX.length + 1; i <= shuntAmperageY.length; i++) {
-        shuntAmperageX.push(i);
-    }
+
+    wheelRPMDataX = create_chart_x_length(wheelRPMDataY.length);
+    speedDataX = create_chart_x_length(speedDataY.length);
+    batteryVoltageX = create_chart_x_length(batteryVoltageY.length);
+    motorVoltageX = create_chart_x_length(motorVoltageY.length);
+    shuntAmperageX = create_chart_x_length(shuntAmperageY.length);
+    
+    // update charts
+    wheelRPMChart.data.labels = wheelRPMDataX;
+    wheelRPMChart.data.datasets[0].data = wheelRPMDataY;
+    speedChart.data.labels = speedDataX;
+    speedChart.data.datasets[0].data = speedDataY;
+    batteryVoltageChart.data.labels = batteryVoltageX;
+    batteryVoltageChart.data.datasets[0].data = batteryVoltageY;
+    motorVoltageChart.data.labels = motorVoltageX;
+    motorVoltageChart.data.datasets[0].data = motorVoltageY;
+    shuntAmperageChart.data.labels = shuntAmperageX;
+    shuntAmperageChart.data.datasets[0].data = shuntAmperageY;
+
+    wheelRPMChart.update({duration: 0});
+    speedChart.update({duration: 0});
+    batteryVoltageChart.update({duration: 0});
+    motorVoltageChart.update({duration: 0});
+    shuntAmperageChart.update({duration: 0});
 };
 
 
@@ -322,6 +357,7 @@ pythonWebSocket.on('updateData', function(data) {
     var dateObject = new Date(data.time * 1000);
     var lastUpdatedTime = dateObject.toLocaleString();
     document.getElementById('last-data-update-text').textContent = `Data last updated at: ${lastUpdatedTime}`
+
     // set text elements to new data
     document.getElementById('wheel-rpm-text').textContent = `Wheel RPM: ${data.wheelRPM}`;
     document.getElementById('speed-text').textContent = `Speed:${data.speed}`;
@@ -329,23 +365,22 @@ pythonWebSocket.on('updateData', function(data) {
     document.getElementById('motor-voltage-text').textContent = `Motor Voltage: ${data.motorVoltage}`;
     document.getElementById('shunt-amperage-text').textContent = `Shunt Amperage: ${data.shuntAmperage}`;
 
-    // add data to charts dataset, update X axes
+    // add data to charts dataset
     wheelRPMDataY.push(data.wheelRPM);
     speedDataY.push(data.speed);
     batteryVoltageY.push(data.batteryVoltage);
     motorVoltageY.push(data.motorVoltage);
     shuntAmperageY.push(data.shuntAmperage);
 
+    // add data to full readings arrays
+    wheelRPMReadings.push(data.wheelRPM);
+    speedReadings.push(data.speed);
+    batteryVoltageRPMReadings.push(data.batteryVoltage);
+    motorVoltageReadings.push(data.motorVoltage);
+    shuntAmperageReadings.push(data.shuntAmperage);
 
     // update charts
-    wheelRPMChart.update({duration: 0});
-    speedChart.update({duration: 0});
-    batteryVoltageChart.update({duration: 0});
-    motorVoltageChart.update({duration: 0});
-    shuntAmperageChart.update({duration: 0});
-
-    // send updates to user
-    update_line_graph_X();
+    update_line_graphs();
 });
 
 setInterval(updateUptimeCounter, 1000);

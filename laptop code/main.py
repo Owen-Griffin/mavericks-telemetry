@@ -5,6 +5,7 @@ import serial
 import threading
 import logging
 from datetime import datetime
+import random
 
 # init application and websockets
 app = Flask(__name__)
@@ -98,6 +99,12 @@ def index():
 
 def websocket_send_data():
     while True:
+        # temporary random values
+        wheelRPM = random.randint(100, 300)
+        speed = random.randint(10, 30)
+        batteryVoltage = random.randint(10, 26)
+        motorVoltage = random.randint(10, 26)
+        shuntAmperage = random.randint(0, 50)
         socketio.emit(
             "updateData",
             {
