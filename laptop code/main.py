@@ -36,6 +36,7 @@ def read_serial():
     try:
         ser = serial.Serial(SERIAL_PORT, BAUDRATE, timeout=1)
         print(f"Connected to {SERIAL_PORT} at {BAUDRATE} baud.")
+        logging.info(f"Connected to {SERIAL_PORT} at {BAUDRATE} baud.")
 
         while True:
             if ser.in_waiting > 0:
@@ -46,6 +47,7 @@ def read_serial():
 
     except serial.SerialException as e:
         print(f"Error opening serial port: {e}")
+        logging.CRITICAL(f"FAILED TO OPEN SERIAL PORT {e}")
 
 def process_serial_input(serialLine):
     global wheelRPM
@@ -93,21 +95,6 @@ def index():
         motorVoltage=motorVoltage,
         shuntAmperage=shuntAmperage,
     )
-
-
-# NOTE FUNCTION IS NO LONGER REQUIRED, SIMPLY A BACKUP
-@app.route("/update-data")
-def update_data():
-    return jsonify(
-        {
-            "wheelRPM": wheelRPM,
-            "speed": speed,
-            "batteryVoltage": batteryVoltage,
-            "motorVoltage": motorVoltage,
-            "shuntAmperage": shuntAmperage,
-        }
-    )
-
 
 def websocket_send_data():
     while True:
