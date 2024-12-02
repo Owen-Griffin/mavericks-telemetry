@@ -23,12 +23,6 @@ body {
     margin-right: 10px;
 }
   
-
-.individual-chart-container {
-    text-align: center;
-    width: 100%;
-}
-
 .chart-container {
     width: 100%;
     margin: auto;
@@ -36,4 +30,32 @@ body {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 5%
+}
+
+.individual-chart-container {
+    text-align: center;
+    width: 100%;
+}
+
+.maximized-chart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom:0;
+    right:0;
+    width: 100%;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5%;
+    background-color: #000000;
+}
+
+.chart-min-max-button {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1em;
+    cursor: pointer;
 }

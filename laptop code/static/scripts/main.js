@@ -330,3 +330,39 @@ pythonWebSocket.on('updateData', function(data) {
 
 setInterval(updateUptimeCounter, 1000);
 
+// Maximize charts
+document.getElementById("wheel-rpm-chart-min-max-button").addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    const chartContainer = document.getElementById("wheel-rpm-chart-container");
+    chartContainer.classList.remove("individual-chart-container");
+    chartContainer.classList.add("maximized-chart-container")
+});
+document.getElementById("speed-chart-min-max-button").addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    const chartContainer = document.getElementById("speed-chart-container");
+    chartContainer.classList.remove("individual-chart-container");
+    chartContainer.classList.add("maximized-chart-container")
+});
+document.getElementById("battery-voltage-chart-min-max-button").addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    const chartContainer = document.getElementById("battery-voltage-chart-container");
+    chartContainer.classList.remove("individual-chart-container");
+    chartContainer.classList.add("maximized-chart-container")
+});
+document.getElementById("motor-voltage-chart-min-max-button").addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    const chartContainer = document.getElementById("motor-voltage-chart-container");
+    chartContainer.classList.remove("individual-chart-container");
+    chartContainer.classList.add("maximized-chart-container")
+});
+document.getElementById("shunt-amperage-chart-min-max-button").addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    const chartContainer = document.getElementById("amperage-chart-container");
+    chartContainer.classList.remove("individual-chart-container");
+    chartContainer.classList.add("maximized-chart-container")
+});
