@@ -312,7 +312,7 @@ function updateUptimeCounter() {
     // Display the updated time in the HTML
     document.getElementById('uptime-counter').textContent = formattedTime;
 }
-
+setInterval(updateUptimeCounter, 1000); // Update runtime counter
 var pythonWebSocket = io();
 
 // Listen for 'updateData' events from the server
@@ -379,8 +379,6 @@ pythonWebSocket.on('updateData', function(data) {
     motorVoltageChart.update({duration: 0});
     shuntAmperageChart.update({duration: 0});
 });
-
-setInterval(updateUptimeCounter, 1000);
 
 // Maximize charts
 document.getElementById("wheel-rpm-chart-min-max-button").addEventListener("click", function (event) {
