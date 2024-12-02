@@ -293,42 +293,6 @@ function define_charts() {
 };
 define_charts();
 
-function update_line_graphs() {
-    const maxPoints = parseInt(document.getElementById("number-of-data-points-on-charts").value)
-    if(maxPoints != 0 && !isNaN(maxPoints)) {
-        wheelRPMDataY = trim_list_to_max(wheelRPMDataY, maxPoints);
-        speedDataY = trim_list_to_max(speedDataY, maxPoints);
-        batteryVoltageY = trim_list_to_max(batteryVoltageY, maxPoints);
-        motorVoltageY = trim_list_to_max(motorVoltageY, maxPoints);
-        shuntAmperageY = trim_list_to_max(shuntAmperageY, maxPoints);
-    }
-
-    wheelRPMDataX = create_chart_x_length(wheelRPMDataY.length);
-    speedDataX = create_chart_x_length(speedDataY.length);
-    batteryVoltageX = create_chart_x_length(batteryVoltageY.length);
-    motorVoltageX = create_chart_x_length(motorVoltageY.length);
-    shuntAmperageX = create_chart_x_length(shuntAmperageY.length);
-    
-    // update charts
-    wheelRPMChart.data.labels = wheelRPMDataX;
-    wheelRPMChart.data.datasets[0].data = wheelRPMDataY;
-    speedChart.data.labels = speedDataX;
-    speedChart.data.datasets[0].data = speedDataY;
-    batteryVoltageChart.data.labels = batteryVoltageX;
-    batteryVoltageChart.data.datasets[0].data = batteryVoltageY;
-    motorVoltageChart.data.labels = motorVoltageX;
-    motorVoltageChart.data.datasets[0].data = motorVoltageY;
-    shuntAmperageChart.data.labels = shuntAmperageX;
-    shuntAmperageChart.data.datasets[0].data = shuntAmperageY;
-
-    wheelRPMChart.update({duration: 0});
-    speedChart.update({duration: 0});
-    batteryVoltageChart.update({duration: 0});
-    motorVoltageChart.update({duration: 0});
-    shuntAmperageChart.update({duration: 0});
-};
-
-
 function updateUptimeCounter() {
     secondsRunning++;
 
@@ -379,8 +343,41 @@ pythonWebSocket.on('updateData', function(data) {
     motorVoltageReadings.push(data.motorVoltage);
     shuntAmperageReadings.push(data.shuntAmperage);
 
+    // UPDATE CHARTS ----------------------------
+
+    // trim to max point length from settings
+    const maxPoints = parseInt(document.getElementById("number-of-data-points-on-charts").value)
+    if(maxPoints != 0 && !isNaN(maxPoints)) {
+        wheelRPMDataY = trim_list_to_max(wheelRPMDataY, maxPoints);
+        speedDataY = trim_list_to_max(speedDataY, maxPoints);
+        batteryVoltageY = trim_list_to_max(batteryVoltageY, maxPoints);
+        motorVoltageY = trim_list_to_max(motorVoltageY, maxPoints);
+        shuntAmperageY = trim_list_to_max(shuntAmperageY, maxPoints);
+    }
+    // create labels
+    wheelRPMDataX = create_chart_x_length(wheelRPMDataY.length);
+    speedDataX = create_chart_x_length(speedDataY.length);
+    batteryVoltageX = create_chart_x_length(batteryVoltageY.length);
+    motorVoltageX = create_chart_x_length(motorVoltageY.length);
+    shuntAmperageX = create_chart_x_length(shuntAmperageY.length);
+    
     // update charts
-    update_line_graphs();
+    wheelRPMChart.data.labels = wheelRPMDataX;
+    wheelRPMChart.data.datasets[0].data = wheelRPMDataY;
+    speedChart.data.labels = speedDataX;
+    speedChart.data.datasets[0].data = speedDataY;
+    batteryVoltageChart.data.labels = batteryVoltageX;
+    batteryVoltageChart.data.datasets[0].data = batteryVoltageY;
+    motorVoltageChart.data.labels = motorVoltageX;
+    motorVoltageChart.data.datasets[0].data = motorVoltageY;
+    shuntAmperageChart.data.labels = shuntAmperageX;
+    shuntAmperageChart.data.datasets[0].data = shuntAmperageY;
+
+    wheelRPMChart.update({duration: 0});
+    speedChart.update({duration: 0});
+    batteryVoltageChart.update({duration: 0});
+    motorVoltageChart.update({duration: 0});
+    shuntAmperageChart.update({duration: 0});
 });
 
 setInterval(updateUptimeCounter, 1000);
