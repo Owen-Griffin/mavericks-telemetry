@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 from flask_socketio import SocketIO
 import time
 import serial
@@ -11,7 +11,7 @@ import random
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-# define placeholder sensor data
+# define sensor data variables
 wheelRPM = 0
 speed = 0
 batteryVoltage = 0
@@ -34,7 +34,7 @@ logging.basicConfig(
 
 # function (for thread) that reads from the serial port and prints to terminal
 def read_serial():
-    try:
+    try: # try to open serial port
         ser = serial.Serial(SERIAL_PORT, BAUDRATE, timeout=1)
         print(f"Connected to {SERIAL_PORT} at {BAUDRATE} baud.")
         logging.info(f"Connected to {SERIAL_PORT} at {BAUDRATE} baud.")
@@ -46,17 +46,17 @@ def read_serial():
                 process_serial_input(line)
             time.sleep(0.1)
 
-    except serial.SerialException as e:
+    except serial.SerialException as e: # if it fails, log why it failed
         print(f"Error opening serial port: {e}")
         logging.CRITICAL(f"FAILED TO OPEN SERIAL PORT {e}")
 
+# sets value to reading based on serial line
 def process_serial_input(serialLine):
     global wheelRPM
     global speed
     global batteryVoltage
     global motorVoltage
     global shuntAmperage
-    # TODO: Process serial data and set variable properly
 
     dataCode = serialLine.split()[0]
     match dataCode:
@@ -84,7 +84,7 @@ def process_serial_input(serialLine):
             print('Unknown input detected!')
             logging.warning(f'Unknown input detected: "{serialLine}"')
     
-
+# render homepage to user
 @app.route("/")
 @app.route("/index")
 def index():
@@ -97,9 +97,11 @@ def index():
         shuntAmperage=shuntAmperage,
     )
 
+# sends readings to frontend via websocket
 def websocket_send_data():
     while True:
         # temporary random values
+        # TODO: remove this
         wheelRPM = random.randint(100, 300)
         speed = random.randint(10, 30)
         batteryVoltage = random.randint(10, 26)
@@ -128,8 +130,7 @@ if __name__ == "__main__":
     serialReaderThread.start()
     logging.info('Serial reader initiated.')
 
-    # init flask application
-    # app.run(debug = True)
+    # init flask with websockets application
     socketio.start_background_task(websocket_send_data)
     socketio.run(app, debug=True)
     logging.info('Flask/websocket application began.')
