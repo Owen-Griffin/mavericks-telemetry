@@ -1,5 +1,25 @@
 console.log("JS Began"); // https://www.w3schools.com/ai/ai_chartjs.asp
 
+// MODAL DEFINITIONS
+var settingsModal = document.getElementById("settings-menu-modal")
+var settingsModalButton = document.getElementById("settings-modal-button")
+var settingsModalCloseButton = document.getElementById("settings-menu-close-button")
+
+settingsModalButton.onclick = function() { // open modal when user clicks button
+    settingsModal.style.display = "block";
+}
+settingsModalCloseButton.onclick = function() { // close modal if user clicks x
+    settingsModal.style.display = "none";
+}
+window.onclick = function(event) { // close modal if user clicks outside content
+    if (event.target == settingsModal) {
+        settingsModal.style.display = "none";
+    }
+}
+  
+
+
+
 Chart.defaults.animation = false; // disable chart.js animations
 
 // DEFINE CHART DATA ARRAYS
