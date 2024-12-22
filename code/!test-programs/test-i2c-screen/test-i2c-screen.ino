@@ -6,6 +6,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("running");
   // Initialize the LCD
   lcd.begin(20, 4);  // set dims
   lcd.backlight();   // enable backlight
@@ -32,4 +33,5 @@ void loop() {
   lcd.print("qwertyuiopasdfghjklz");
   lcd.setCursor(0, 3);
   lcd.print("QWERTYUIOPASDFGHJKLZ!");
+  Serial.println("printed");
 }

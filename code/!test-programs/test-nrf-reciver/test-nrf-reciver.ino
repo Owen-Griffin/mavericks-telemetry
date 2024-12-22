@@ -39,5 +39,6 @@ void loop() {
         char text[32] = "";  // Buffer to hold incoming message
         radio.read(&text, sizeof(text));
         Serial.println(text); // print incoming line to serial
+        Serial.println(String(random(1, 10))); // print incoming line to serial
     }
 }
