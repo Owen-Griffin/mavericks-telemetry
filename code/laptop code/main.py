@@ -20,12 +20,12 @@ shuntAmperage = 0
 
 # init serial information
 SERIAL_PORT = "COM3" # RUN "Get-WMIObject Win32_SerialPort | Format-Table Name,DeviceID,Description" in powershell to get port
-BAUDRATE = 9600
+BAUDRATE = 57600
 
 # init logging
 current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")  # name file
 logging.basicConfig(
-    filename=f'./laptop code/logs/log_{current_time}.log',
+    filename=f'./code/laptop code/logs/log_{current_time}.log',
     filemode='a',
     format='%(asctime)s - %(levelname)s - %(message)s', # formatting
     level=logging.INFO
@@ -41,7 +41,9 @@ def read_serial():
 
         while True:
             if ser.in_waiting > 0:
-                line = ser.readline().decode("utf-8").rstrip()
+                rawLine = ser.readline()
+                print(f'RAW LINE: {rawLine}')
+                line = rawLine.decode("latin-1", errors="ignore").rstrip()
                 print(f"[SERIAL] {line}")
                 process_serial_input(line)
             time.sleep(0.1)
