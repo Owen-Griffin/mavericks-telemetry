@@ -1,5 +1,5 @@
 // config serial baud rate
-const int serial_baud = 57600
+const int serial_baud = 57600;
 
 // import I2C, screen, and gryo/accel (mpu) libraries
 #include <Wire.h>
