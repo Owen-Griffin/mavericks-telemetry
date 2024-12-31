@@ -1,3 +1,6 @@
+// config serial baud rate
+const int serial_baud = 57600
+
 // import I2C, screen, and gryo/accel (mpu) libraries
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
@@ -48,7 +51,7 @@ struct ADCReadingStruct {
 
 void setup() {
   // begin serial and i2c
-  Serial.begin(57600);
+  Serial.begin(serial_baud);
   Wire.begin();
 
   // init lcd
@@ -83,30 +86,22 @@ void setup() {
 }
 
 ADCReadingStruct get_adc_voltages() {
-  int16_t adc0, adc1, adc2, adc3;
-  float volts0, volts1, volts2, volts3;
-  adc0 = ads.readADC_SingleEnded(0);
-  adc1 = ads.readADC_SingleEnded(1);
-  adc2 = ads.readADC_SingleEnded(2);
-  adc3 = ads.readADC_SingleEnded(3);
-  volts0 = ads.computeVolts(adc0);
-  volts1 = ads.computeVolts(adc1);
-  volts2 = ads.computeVolts(adc2);
-  volts3 = ads.computeVolts(adc3);
-  Serial.print("AIN0: "); Serial.print(adc0); Serial.print("  "); Serial.print(volts0); Serial.println("V");
-  Serial.print("AIN1: "); Serial.print(adc1); Serial.print("  "); Serial.print(volts1); Serial.println("V");
-  Serial.print("AIN2: "); Serial.print(adc2); Serial.print("  "); Serial.print(volts2); Serial.println("V");
-  Serial.print("AIN3: "); Serial.print(adc3); Serial.print("  "); Serial.print(volts3); Serial.println("V");
-  
   ADCReadingStruct result;
-  result.A0.ain = adc0;
-  result.A1.ain = adc0;
-  result.A2.ain = adc0;
-  result.A3.ain = adc0;
-  result.A0.v = volts0;
-  result.A1.v = volts1;
-  result.A2.v = volts2;
-  result.A3.v = volts3;
+
+  result.A0.ain = ads.readADC_SingleEnded(0);
+  result.A1.ain = ads.readADC_SingleEnded(1);
+  result.A2.ain = ads.readADC_SingleEnded(2);
+  result.A3.ain = ads.readADC_SingleEnded(3);
+  result.A0.v = ads.computeVolts(result.A0.ain);
+  result.A1.v = ads.computeVolts(result.A1.ain);
+  result.A2.v = ads.computeVolts(result.A2.ain);
+  result.A3.v = ads.computeVolts(result.A3.ain);
+
+  Serial.print("AIN0: "); Serial.print(result.A0.ain); Serial.print("  "); Serial.print(result.A0.v); Serial.println("V");
+  Serial.print("AIN1: "); Serial.print(result.A1.ain); Serial.print("  "); Serial.print(result.A1.v); Serial.println("V");
+  Serial.print("AIN2: "); Serial.print(result.A2.ain); Serial.print("  "); Serial.print(result.A2.v); Serial.println("V");
+  Serial.print("AIN3: "); Serial.print(result.A3.ain); Serial.print("  "); Serial.print(result.A3.v); Serial.println("V");
+  
   return result;
 }
 
@@ -130,10 +125,6 @@ void send_data(String string) {
 }
 
 void mainLoop() {
-  lcd.setCursor(0,0);
-  lcd.print("Initalized!");
-  delay(1000);
-  lcd.clear();
   while(true) {
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
@@ -148,5 +139,9 @@ void mainLoop() {
 }
 
 void loop() {
+  lcd.setCursor(0,0);
+  lcd.print("Initalized!");
+  delay(1000);
+  lcd.clear();
   mainLoop();
 }
