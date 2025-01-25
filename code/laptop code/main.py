@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 from flask_socketio import SocketIO
 import time
 import serial
@@ -9,7 +10,8 @@ import random
 
 # init application and websockets
 app = Flask(__name__)
-socketio = SocketIO(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # define sensor data variables
 wheelRPM = 0
