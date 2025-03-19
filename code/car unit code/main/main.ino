@@ -1,32 +1,32 @@
-// config serial baud rate
+
+
+
+
+
+
+
 const int serial_baud = 57600;
-
-// import I2C, screen, and gryo/accel (mpu) libraries
 #include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27, 20, 4); // define screen
-#include <Adafruit_Sensor.h>
-#include <Adafruit_MPU6050.h>
-Adafruit_MPU6050 mpu;
-#include <Adafruit_ADS1X15.h>
-Adafruit_ADS1115 ads;
-
-// import and config for nRF
-#include <SPI.h>
 #include <RF24.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_ADS1X15.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
 #define CE_PIN 26
 #define CSN_PIN 25
 RF24 radio(CE_PIN, CSN_PIN);
 const byte address[6] = "00001"; // Address for communication
 const int radioChannel = 43; // radio channel
 
+Adafruit_ADS1115 ads;
+Adafruit_MPU6050 mpu;
+
 // config wheel rpm sensor pin
 #define WHEEL_RPM_SENSOR_PIN 12
+const int wheelDiameter = 16;
 
-// config vehicle setup
-const int wheelDiameter = 20; // set diameter of wheel with sensor
-
-// init structs
 struct xyzStruct {
   float x;
   float y;
