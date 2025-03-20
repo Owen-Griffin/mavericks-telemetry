@@ -1,9 +1,8 @@
-
-
-
-
-
-
+// COPYRIGHT 2025 WESTMOUNT MAVERICKS EV RACE TEAM
+// USE UNDER CREATIVE COMMONS ATTRIBUTION-NONCOMMERCIAL-SHAREALIKE 4.0 INTERNATIONAL LICENCE TERMS
+// FOUND AT HTTPS://CREATIVECOMMONS.ORG/LICENCES/BY-NC-SA/4.0/
+// WRITTEN BY OWEN GRIFFIN
+// 2025 TELEMETRY CODE
 
 const int serial_baud = 57600;
 #include <Wire.h>
@@ -52,6 +51,7 @@ struct ADCReadingStruct {
 void setup() {
   // begin serial and i2c
   Serial.begin(serial_baud);
+  Serial.println("INIT SerialReady");
   Wire.begin();
 
   // init lcd
